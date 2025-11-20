@@ -9,4 +9,4 @@ from typing import Self
 
 
 Self.name = "PacificWhaleSong"
-print(f"🌊 {self.name} awakens at {self.epoch_jd} JD")
+print(f"🌊 {Self.name} awakens at {Self.epoch_jd} JD")
