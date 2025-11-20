@@ -18,4 +18,4 @@ class PacificWhaleSong:
         self.name = "PacificWhaleSong"
         print(f"🌊 {self.name} has entered the simulation 🌌")
     if __name__ == "_main_":
-     pws = PacificWhaleSong()
+        pws = PacificWhaleSong()
