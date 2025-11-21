@@ -17,6 +17,8 @@ class PacificWhaleSong:
     def __init__(self):
         self.name = "PacificWhaleSong"
         self.mass = 260.0  # kg — the weight of six years of service and one final song
+        self.area = 13.5 # m² — broadside solar array presented to the wind
+        self.cd = 2.2    # drag coefficient for flat plate normal to flow
         print(f"🌊 {self.name} has entered the simulation 🌌")
         print(f"Mass: {self.mass} kg")
 if __name__ == '__main__':
