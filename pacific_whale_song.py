@@ -19,7 +19,7 @@ class PacificWhaleSong:
         self.mass = 260.0  # kg — the weight of six years of service and one final song
         self.area_drag = 13.5 # m² — broadside solar array presented to the wind
         self.cd = 2.2    # drag coefficient for flat plate normal to flow
-        self.ballistic_coeff = self.mass / (self.cd * self.area)
+        self.ballistic_coeff = self.mass / (self.cd * self.area_drag)
         self.attitude_mode = "set_deorbit_attitude(mode='sail)"    
         print(f"🌊 {self.name} has entered the simulation 🌌")
         print(f"Mass: {self.mass} kg")
