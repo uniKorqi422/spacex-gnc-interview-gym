@@ -18,6 +18,6 @@ class PacificWhaleSong:
         self.name = "PacificWhaleSong"
         self.mass = 260.0  # kg — the weight of six years of service and one final song
         print(f"🌊 {self.name} has entered the simulation 🌌")
-        print
+        print(f"Mass: {self.mass} kg")
 if __name__ == '__main__':
     pws = PacificWhaleSong()
