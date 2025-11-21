@@ -19,7 +19,11 @@ class PacificWhaleSong:
         self.mass = 260.0  # kg — the weight of six years of service and one final song
         self.area = 13.5 # m² — broadside solar array presented to the wind
         self.cd = 2.2    # drag coefficient for flat plate normal to flow
+        self.ballistic_coeff = self.mass / (self.cd * self.area)    
         print(f"🌊 {self.name} has entered the simulation 🌌")
         print(f"Mass: {self.mass} kg")
+        print(f"Drag reference area: {self.area_drag:.1f} m² (belly to the wind)")
+        print(f"Ballistic coefficient: {self.ballistic_coeff:.1f} kg/m²")
+    
 if __name__ == '__main__':
     pws = PacificWhaleSong()
