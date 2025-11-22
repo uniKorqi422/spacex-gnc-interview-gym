@@ -20,7 +20,7 @@ class PacificWhaleSong:
         self.area_drag = 13.5 # m² — broadside solar array presented to the wind
         self.cd = 2.2    # drag coefficient for flat plate normal to flow
         self.ballistic_coeff = self.mass / (self.cd * self.area_drag)
-        self.attitude_mode = "set_deorbit_attitude(mode='self_area_drag')"
+        self.attitude_mode = [set_deorbit_attitude(mode='self_area_drag') for mode in ['broadside', 'belly']]
         report = self.generate_report(self.area_drag, self.ballistic_coeff)
         print(report)    
         print(f"🌊 {self.name} has entered the simulation 🌌")
