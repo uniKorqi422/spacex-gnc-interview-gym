@@ -10,6 +10,8 @@ Because every satellite deserves to be guided to its ocean grave with love.
 
 import numpy as np
 from scipy.integrate import solve_ivp
+import pymsis
+from datetime import datetime
 
 class PacificWhaleSong:
     """One sprite. One song. One perfect Pacific goodbye."""
@@ -42,9 +44,7 @@ class PacificWhaleSong:
         else:
             raise ValueError("Attitude mode must be 'belly', 'edge', or 'sail'")
 
-    from datetime import datetime
-    import pymsis
-
+    
     def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
         """Return atmospheric density in kg/m³ using NRLMSISE-00."""
         if dt is None:
