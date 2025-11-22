@@ -8,10 +8,19 @@ with J2, atmospheric drag (NRLMSISE-00), and variable-step RK45.
 Because every satellite deserves to be guided to its ocean grave with love.
 """
 
+"""
+PacificWhaleSong – a Starlink v1 sprite on its final journey home
+Author: Amanda Wech (@Am1Alpha)
+Date: 2025-11-20
+"""
 import numpy as np
 from scipy.integrate import solve_ivp
-import msis00f as pymsis
 from datetime import datetime
+
+# ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
+# THIS IS THE ONLY LINE YOU NEED TO CHANGE
+import pymsis          # ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
+# ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
 
 class PacificWhaleSong:
     """One sprite. One song. One perfect Pacific goodbye."""
@@ -44,22 +53,18 @@ class PacificWhaleSong:
         else:
             raise ValueError("Attitude mode must be 'belly', 'edge', or 'sail'")
 
-    
-        def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
-            """Return atmospheric density in kg/m³ using NRLMSISE-00 (fixed for pymsis)."""
+    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+        """Return total mass density in kg/m³ using NRLMSISE-00."""
         if dt is None:
             dt = datetime.utcnow()
 
-        lon, lat = -140.0, 0.0        # mid-Pacific graveyard point
-        f107 = 150                    # average solar flux
-        f107a = 150
-        ap = 15                       # moderate geomagnetic activity
+        lon, lat = -140.0, 0.0          # Point Nemo-ish
+        f107, f107a, ap = 150, 150, 15  # average conditions
 
-        # This is the correct function name → msis00f (with f!)
-        density = pymsis.msis00f(alt_km, lon, lat, f107, f107a, ap, dt)
-        
-        # Returns: [total, He, O, N2, O2, Ar, H, N, anomalous O, NO, T_exo, T_alt]
-        return float(density[0])      # total mass density in kg/m³
+        # ←←← THIS IS THE CORRECT FUNCTION NAME
+        density_array = pymsis.msis00f(alt_km, lon, lat, f107, f107a, ap, dt)
+        # ←←← returns a list of 12 values → index 0 is total density
+        return float(density_array[0])
 
     def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         """Return drag acceleration vector in ECI (km/s²)."""
@@ -95,8 +100,6 @@ if __name__ == '__main__':
     pws = PacificWhaleSong()    # born in belly mode
     pws.set_deorbit_attitude("sail")  # final command: become a feather!
     pws.report()         # report final state, sing the new song
-
-    from datetime import datetime
     print("Testing atmospheric density at 250 km:")
     test_alt = 250.0
     density = pws.get_atm_density(test_alt, datetime(2025, 11, 22))
