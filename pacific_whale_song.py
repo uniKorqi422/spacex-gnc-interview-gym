@@ -10,7 +10,7 @@ Because every satellite deserves to be guided to its ocean grave with love.
 
 import numpy as np
 from scipy.integrate import solve_ivp
-import pymsis
+import msis00f as pymsis
 from datetime import datetime
 
 class PacificWhaleSong:
@@ -45,18 +45,21 @@ class PacificWhaleSong:
             raise ValueError("Attitude mode must be 'belly', 'edge', or 'sail'")
 
     
-    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
-        """Return atmospheric density in kg/m³ using NRLMSISE-00."""
+        def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+            """Return atmospheric density in kg/m³ using NRLMSISE-00 (fixed for pymsis)."""
         if dt is None:
-            dt = datetime.utcnow()  # or set a specific epoch later
-        # Longitude, latitude arbitrary for mid-Pacific graveyard
-        lon, lat = -140.0, 0.0
-        f107 = 150      # average solar flux
+            dt = datetime.utcnow()
+
+        lon, lat = -140.0, 0.0        # mid-Pacific graveyard point
+        f107 = 150                    # average solar flux
         f107a = 150
-        ap = 15
-        # pymsis returns density in kg/m³
-        density = pymsis.msis00((alt_km,), lon, lat, f107, f107a, ap, dt)[0][0]
-        return float(density)
+        ap = 15                       # moderate geomagnetic activity
+
+        # This is the correct function name → msis00f (with f!)
+        density = pymsis.msis00f(alt_km, lon, lat, f107, f107a, ap, dt)
+        
+        # Returns: [total, He, O, N2, O2, Ar, H, N, anomalous O, NO, T_exo, T_alt]
+        return float(density[0])      # total mass density in kg/m³
 
     def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         """Return drag acceleration vector in ECI (km/s²)."""
