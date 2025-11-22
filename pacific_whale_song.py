@@ -93,7 +93,7 @@ if __name__ == '__main__':
     pws.set_deorbit_attitude("sail")  # final command: become a feather!
     pws.report()         # report final state, sing the new song
 
-        from datetime import datetime
+    from datetime import datetime
     print("Testing atmospheric density at 250 km:")
     test_alt = 250.0
     density = pws.get_atm_density(test_alt, datetime(2025, 11, 22))
