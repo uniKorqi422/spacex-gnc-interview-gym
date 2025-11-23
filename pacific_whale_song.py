@@ -102,10 +102,11 @@ class PacificWhaleSong:
         print()
 
         
-if __name__ == '__main__':
-    pws = PacificWhaleSong()    # born in belly mode
-    pws.set_deorbit_attitude("sail")  # final command: become a feather!
-    pws.report()         # report final state, sing the new song
+if __name__ == "__main__":
+    pws = PacificWhaleSong()
+    pws.set_deorbit_attitude("sail")
+    pws.report()
+
     print("Testing atmospheric density at 250 km:")
     test_alt = 250.0
     density = pws.get_atm_density(test_alt, datetime(2025, 11, 22))
