@@ -1,6 +1,6 @@
 """
 PacificWhaleSong – a Starlink v1 sprite on its final journey home
-Author: Amanda Wech (@Am1Alpha)
+Author: Amanda Wech-Meehan (@Am1Alpha)
 Date: 2025-11-20
 
 A controlled, dignified deorbit simulation using full numerical propagation
@@ -10,7 +10,7 @@ Because every satellite deserves to be guided to its ocean grave with love.
 
 """
 PacificWhaleSong – a Starlink v1 sprite on its final journey home
-Author: Amanda Wech (@Am1Alpha)
+Author: Amanda Wech-Meehan (@Am1Alpha)
 Date: 2025-11-20
 """
 import numpy as np
