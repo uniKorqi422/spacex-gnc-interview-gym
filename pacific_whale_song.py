@@ -53,18 +53,26 @@ class PacificWhaleSong:
         else:
             raise ValueError("Attitude mode must be 'belly', 'edge', or 'sail'")
 
-    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
-        """Return total mass density in kg/m³ using NRLMSISE-00."""
+        def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+        """Return total mass density in kg/m³ using NRLMSISE-00 (2024+ pymsis API)."""
         if dt is None:
-            dt = datetime.now().date()
+            dt = datetime.utcnow()
 
-        lon, lat = -140.0, 0.0          # Point Nemo-ish
-        f107, f107a, ap = 150, 150, 15  # average conditions
+        lon, lat = -140.0, 0.0
+        f107, f107a, ap = 150.0, 150.0, 15.0
 
-        # ←←← THIS IS THE CORRECT FUNCTION NAME
-        density_array = pymsis.msis00f(alt_km, lon, lat, f107, f107a, ap, dt)
-        # ←←← returns a list of 12 values → index 0 is total density
-        return float(density_array[0])
+        # NEW CORRECT WAY (2024+) — pymsis.msis00f is now a FUNCTION that takes a tuple
+        density_data = pymsis.msis00f(
+            altitude=alt_km,
+            longitude=lon,
+            latitude=lat,
+            f107=f107,
+            f107a=f107a,
+            ap=ap,
+            date=dt
+        )
+        # Returns a 1×12 array — index 0 is total density
+        return float(density_data[0][0])
 
     def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         """Return drag acceleration vector in ECI (km/s²)."""
