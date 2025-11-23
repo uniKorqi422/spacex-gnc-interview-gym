@@ -92,9 +92,7 @@ class PacificWhaleSong:
         a_drag = - (drag_mag / self.mass) * (v_eci_km_s / v_rel_mag)
         return a_drag  # km/s²
 
-        self._update_ballistic_coeff()
-        print(f"→ Attitude changed to: {self.attitude_mode.upper()}")
-
+        
     def report(self):
         """Let the whale sing its current state."""
         print(f"🌊 {self.name} has entered the simulation 🌌")
