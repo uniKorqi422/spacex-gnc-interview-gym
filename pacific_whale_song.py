@@ -56,7 +56,7 @@ class PacificWhaleSong:
     def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
         """Return total mass density in kg/m³ using NRLMSISE-00."""
         if dt is None:
-            dt = datetime.utcnow()
+            dt = datetime.now().date()
 
         lon, lat = -140.0, 0.0          # Point Nemo-ish
         f107, f107a, ap = 150, 150, 15  # average conditions
