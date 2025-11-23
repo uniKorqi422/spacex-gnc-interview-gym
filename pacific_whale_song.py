@@ -50,7 +50,7 @@ class PacificWhaleSong:
             raise ValueError("Attitude mode must be 'belly', 'edge', or 'sail'")
 
         def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
-    """Return total mass density in kg/m³ using NRLMSISE-00."""
+        """Return total mass density in kg/m³ using NRLMSISE-00."""
     if dt is None:                    # ←←← correct way
         dt = datetime.utcnow()        # ←←← correct method
 
