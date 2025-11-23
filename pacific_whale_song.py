@@ -65,10 +65,12 @@ class PacificWhaleSong:
         f107a=f107a,
         ap=ap,
         date=dt
-    )
+    
     return float(density_data[0][0])
+    )
+    
 
-    def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
+def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         """Return drag acceleration vector in ECI (km/s²)."""
         # Altitude from magnitude of position vector (assume Earth radius 6378.1 km)
         alt_km = np.linalg.norm(r_eci_km) - 6378.1
