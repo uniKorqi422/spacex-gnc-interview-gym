@@ -89,9 +89,28 @@ class PacificWhaleSong:
 
 if __name__ == "__main__":
     pws = PacificWhaleSong()
-    pws.set_deorbit_attitude("sail")
+    pws.set_deorbit_attitude("sail")   # feather mode engaged
     pws.report()
 
-    print("Testing atmospheric density at 250 km:")
+    # 1. Pure density test at 250 km
+    print("\nTesting atmospheric density at 250 km:")
     density = pws.get_atm_density(250.0, datetime(2025, 11, 22))
     print(f"Density at 250 km: {density:.3e} kg/m³")
+
+    # 2. Full drag acceleration test at 400 km altitude (realistic orbit)
+    print("\nReal drag test at 400 km altitude (sail mode):")
+    r_400km = np.array([6778.1, 0.0, 0.0])   # Earth radius + 400 km
+    v_400km = np.array([0.0, 7.67, 0.0])     # typical circular orbital speed
+    drag_vec = pws.drag_acceleration(r_400km, v_400km, datetime(2025, 11, 25))
+    drag_mag = np.linalg.norm(drag_vec)
+
+    print(f"Position vector   : {r_400km} km")
+    print(f"Velocity vector   : {v_400km} km/s")
+    print(f"Drag acceleration : {drag_vec} km/s²")
+    print(f"Drag magnitude    : {drag_mag:.2e} km/s²")
+
+    # Bonus: how much altitude would we lose in one day at this rate?
+    drag_mag_m_per_s2 = drag_mag * 1e6   # km/s² → m/s²
+    delta_v_per_day = drag_mag_m_per_s2 * 86400
+    alt_loss_per_day_km = delta_v_per_day * 86400 / (2 * np.pi * 6778.1)  # very rough
+    print(f"Rough altitude loss per day: ~{alt_loss_per_day_km:.1f} km")
