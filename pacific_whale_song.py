@@ -46,7 +46,7 @@ class PacificWhaleSong:
         self._update_ballistic_coeff()
         print(f"→ Attitude changed to: {self.attitude_mode.upper()}")
 
-       def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
         """Return total mass density in kg/m³ using NRLMSISE-00 (pymsis 2024+ API)."""
         if dt is None:
             dt = datetime.utcnow()
