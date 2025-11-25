@@ -1,0 +1,28 @@
+{
+  "python.analysis.extraPaths": ["."],
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportUnknownVariableType": "none",
+    "reportUnknownMemberType": "none",
+    "reportGeneralTypeIssues": "none"
+  },
+  "cSpell.words": [
+    "pymsis",
+    "msis00f",
+    "coeff",
+    "deorbit",
+    "NRLMSISE",
+    "ballistic",
+    "eci",
+    "rk45",
+    "Am1Alpha",
+    "WhaleSong",
+    "pacificwhalesong",
+    "getatm",
+    "dragacc",
+    "setdeorbit",
+    "starlink",
+    "pointnemo"
+  ]
+}

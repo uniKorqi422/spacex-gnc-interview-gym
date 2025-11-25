@@ -11,7 +11,9 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from datetime import datetime
 import pymsis                                    # ← correct import
-
+# pylint: disable=unused-argument
+# pyright: reportUnknownMemberType=false
+# type: ignore
 class PacificWhaleSong:
     """One sprite. One song. One perfect Pacific goodbye."""
 
