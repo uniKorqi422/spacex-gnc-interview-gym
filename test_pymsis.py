@@ -1,8 +1,10 @@
+# This Python code snippet is using the `pymsis` library to calculate the atmospheric density at a
+# specific altitude and location on Earth. Here's a breakdown of what the code is doing:
 from datetime import datetime
 import pymsis
 
 
-density = pymsis.run_msis(
+density = pymsis.run(
     altitude=250.0,
     longitude=-140.0,
     latitude=0.0,
