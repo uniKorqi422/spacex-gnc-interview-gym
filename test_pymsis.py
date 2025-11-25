@@ -2,7 +2,7 @@ from datetime import datetime
 import pymsis
 
 
-density = pymsis.run(
+density = pymsis.run_msis(
     altitude=250.0,
     longitude=-140.0,
     latitude=0.0,
