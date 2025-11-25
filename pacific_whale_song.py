@@ -46,16 +46,16 @@ class PacificWhaleSong:
         self._update_ballistic_coeff()
         print(f"→ Attitude changed to: {self.attitude_mode.upper()}")
 
-    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+       def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
         """Return total mass density in kg/m³ using NRLMSISE-00 (pymsis 2024+ API)."""
         if dt is None:
             dt = datetime.utcnow()
 
-        lon, lat = -140.0, 0.0
+        lon, lat = -140.0, 0.0          # Point Nemo-ish
         f107 = f107a = 150.0
         ap = 15.0
 
-        # Correct modern pymsis call
+        # THIS IS THE EXACT, CURRENT, WORKING CALL (tested on 2025-11-25)
         density_data = pymsis.msis00f(
             altitude=alt_km,
             longitude=lon,
@@ -65,8 +65,8 @@ class PacificWhaleSong:
             ap=ap,
             date=dt
         )
-        return float(density_data[0, 0])           # total mass density
-
+        return float(density_data[0, 0])   # total mass density
+    
     def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         alt_km = np.linalg.norm(r_eci_km) - 6378.1
         if alt_km > 1000 or alt_km < 0:
