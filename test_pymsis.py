@@ -1,6 +1,5 @@
 from datetime import datetime
 import pymsis
-import numpy as np
 
 
 density = help(pymsis).run(
