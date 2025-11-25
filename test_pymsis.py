@@ -3,7 +3,7 @@ import pymsis
 import numpy as np
 
 
-density = pymsis.msis00f.msis00f(
+density = pymsis.run(
     altitude=250.0,
     longitude=-140.0,
     latitude=0.0,
