@@ -46,26 +46,25 @@ class PacificWhaleSong:
         self._update_ballistic_coeff()
         print(f"→ Attitude changed to: {self.attitude_mode.upper()}")
 
-    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
-        """Return total mass density in kg/m³ using NRLMSISE-00 (2025 pymsis API)."""
+        def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+        """Return total mass density [kg/m³] using NRLMSISE-00 via pymsis.calculate."""
         if dt is None:
             dt = datetime.utcnow()
 
-        lon, lat = -140.0, 0.0
-        f107 = f107a = 150.0
-        ap = 15.0
-
-        # CORRECT CALL FOR pymsis ≥ 1.2.0 (current as of Nov 2025)
-        density_data = pymsis.msis00f.msis00f(
-            altitude=alt_km,
-            longitude=lon,
-            latitude=lat,
-            f107=f107,
-            f107a=f107a,
-            ap=ap,
-            date=dt
+        # This is the canonical, documented way in pymsis 0.11.0
+        density_array = pymsis.calculate(
+            dates=dt,           # scalar datetime
+            lons=-140.0,        # longitude
+            lats=0.0,           # latitude
+            alts=alt_km,        # altitude in km
+            f107=150.0,
+            f107a=150.0,
+            aps=15.0,           # ap is a list in the code, so we use the plural name
+            version='msis00f'   # classic NRLMSISE-00
         )
-        return float(density_data[0, 0])
+        # density_array shape is (1, 11) → total density is first column
+        return float(density_array[0, 0])
+    
     def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         alt_km = np.linalg.norm(r_eci_km) - 6378.1
         if alt_km > 1000 or alt_km < 0:
