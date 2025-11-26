@@ -23,10 +23,10 @@ def pretty_print(title: str, density_kg_m3: float, alt_km: float):
 # --------------------------------------------------------------
 print("TEST 1 – Classic NRLMSISE-00 (msis00f), no F10.7 provided")
 data = pymsis.calculate(
-    altitude=250.0,
-    longitude=-140.0,
-    latitude=0.0,
-    date=datetime(2025, 11, 22),
+    alts=250.0,
+    lons=-140.0,
+    lats=0.0,
+    dates=datetime(2025, 11, 22),
     version='msis00f'          # classic model
 )
 density1 = float(data[0, 0])
