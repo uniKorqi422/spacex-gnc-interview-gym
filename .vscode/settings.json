@@ -24,6 +24,8 @@
     "dragacc",
     "setdeorbit",
     "starlink",
-    "pointnemo"
+    "pointnemo",
+    "lons",
+    "lats"
   ]
 }
