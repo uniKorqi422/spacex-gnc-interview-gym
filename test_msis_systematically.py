@@ -55,7 +55,7 @@ data20 = pymsis.calculate(
     lons=-140.0,
     lats=0.0,
     dates=datetime(2025, 11, 22),
-    version='msis20f'
+    version=2.0                # or 'msis20f' – both work
 )
 density20 = float(data20[0, 0])
 pretty_print("NRLMSISE-2.0 (2020)", density20, 250.0)
