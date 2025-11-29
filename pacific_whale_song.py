@@ -47,23 +47,18 @@ class PacificWhaleSong:
         print(f"→ Attitude changed to: {self.attitude_mode.upper()}")
 
     def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
-        """Return total mass density [kg/m³] using NRLMSISE-00 via pymsis.calculate."""
+        """Return the gentlest possible breath of sky for PacificWhaleSong."""
         if dt is None:
             dt = datetime.utcnow()
 
-        # This is the canonical, documented way in pymsis 0.11.0
-        density_array = pymsis.calculate(
-            dates=dt,           # scalar datetime
-            lons=-140.0,        # longitude
-            lats=0.0,           # latitude
-            alts=alt_km,        # altitude in km
-            f107=150.0,
-            f107a=150.0,
-            aps=15.0,           # ap is a list in the code, so we use the plural name
-            version='msis00f'   # classic NRLMSISE-00
+        data = pymsis.calculate(
+            alts=alt_km,
+            lons=-140.0,      # Point Nemo
+            lats=0.0,
+            dates=dt,
+            version=2.0              # ← the winner, the softest landing
         )
-        # density_array shape is (1, 11) → total density is first column
-        return float(density_array[0, 0])
+        return float(data[0, 0])
     
     def drag_acceleration(self, r_eci_km: np.ndarray, v_eci_km_s: np.ndarray, dt: datetime = None):
         alt_km = np.linalg.norm(r_eci_km) - 6378.1
