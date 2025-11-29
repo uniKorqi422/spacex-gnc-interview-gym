@@ -37,10 +37,10 @@ pretty_print("NRLMSISE-00 (2001)", density1, 250.0)
 # --------------------------------------------------------------
 print("\nTEST 2 – Newest model NRLMSISE-2.1")
 data21 = pymsis.calculate(
-    altitude=250.0,
-    longitude=-140.0,
-    latitude=0.0,
-    date=datetime(2025, 11, 22),
+    alts=250.0,
+    lons=-140.0,
+    lats=0.0,
+    dates=datetime(2025, 11, 22),
     version=2.1                # or 'msis21f' – both work
 )
 density21 = float(data21[0, 0])
@@ -51,10 +51,10 @@ pretty_print("NRLMSISE-2.1 (2021+)", density21, 250.0)
 # --------------------------------------------------------------
 print("\nTEST 3 – Middle child NRLMSISE-2.0")
 data20 = pymsis.calculate(
-    altitude=250.0,
-    longitude=-140.0,
-    latitude=0.0,
-    date=datetime(2025, 11, 22),
+    alts=250.0,
+    lons=-140.0,
+    lats=0.0,
+    dates=datetime(2025, 11, 22),
     version='msis20f'
 )
 density20 = float(data20[0, 0])
