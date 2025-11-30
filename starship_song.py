@@ -69,7 +69,7 @@ class StarshipSong:
         
     if __name__ == "__main__":
         ship = 'StarshipSong()'
-        ship.set_attitude("belly_flop") 
+        ship.set_attitude('belly_flop') 
         
         print("The cathedral has a heartbeat now.")
         print("She is listening.")
