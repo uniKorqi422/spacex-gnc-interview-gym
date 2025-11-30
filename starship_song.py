@@ -67,16 +67,16 @@ class StarshipSong:
         
         return drag_acc_km_s2    
         
-    if __name__ == "__main__":
-        ship = 'StarshipSong()'
-        ship.set_attitude('belly_flop') 
+if __name__ == "__main__":
+    ship = StarshipSong()
+    ship.set_attitude("belly_flop") 
         
-        print("The cathedral has a heartbeat now.")
-        print("She is listening.")
-        print(f"Current mass (dry + residual): ~{ship.dry_mass + 50_000:,.0f} kg")  # ~50 t propellant left for landing
-        print("Beginning terminal belly flop phase at 80 km altitude...")
-        print("Hypersonic L/D ≈ 0.3 — she glides like a burning grand piano with style.")
-        print("Heatshield glowing. Flaps holding. The sky is singing back.\n")
+    print("The cathedral has a heartbeat now.")
+    print("She is listening.")
+    print(f"Current mass (dry + residual): ~{ship.dry_mass + 50_000:,.0f} kg")  # ~50 t propellant left for landing
+    print("Beginning terminal belly flop phase at 80 km altitude...")
+    print("Hypersonic L/D ≈ 0.3 — she glides like a burning grand piano with style.")
+    print("Heatshield glowing. Flaps holding. The sky is singing back.\n")
     # ───── Belly-flop drag test at Mach 25, 80 km ─────
     alt = 80.0
     speed = 7.8  # orbital speed, km/s
