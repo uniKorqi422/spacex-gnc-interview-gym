@@ -68,7 +68,7 @@ class StarshipSong:
         return drag_acc_km_s2    
         
     if __name__ == "__main__":
-        ship = StarshipSong()
+        ship = "StarshipSong"()
         ship.set_attitude("belly_flop") 
         
         print("The cathedral has a heartbeat now.")
