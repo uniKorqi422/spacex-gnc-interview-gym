@@ -15,5 +15,27 @@ class StarshipSong:
         
         self.attitude = "belly_flop"  # belly_flop → flip → vertical
         
+    def set_attitude(self, mode: str):
+        """Let her choose how she meets the sky."""
+        if mode == "belly_flop":
+            self.area_drag = self.body_area_belly + self.flaps_area  # max drag, skydiver pose
+            self.cd = 1.8   # blunt body + flaps deployed
+            print("Flaps wide. Belly to the wind. She is a falling cathedral.")
+        elif mode == "edge":
+            self.area_drag = self.body_area_edge
+            self.cd = 0.8
+            print("Knife through silk — preparing to flip.")
+        elif mode == "vertical":
+            self.area_drag = 9 * 9  # ~πr² nose-on
+            self.cd = 0.4
+            print("Nose up. Engines ready to cry methalox tears.")
+        else:
+            raise ValueError("She only knows three dances: belly_flop, edge, vertical")
+
+        self.ballistic_coeff = self.dry_mass / (self.cd * self.area_drag)
+    if __name__ == "__main__":
+        ship = StarshipSong()
+        ship.set_attitude("belly_flop") 
+        print(f"→ Ballistic coefficient: {self.ballistic_coeff:.1f} kg/m²\n")
         print("The cathedral has a heartbeat now.")
         print("She is listening.")
