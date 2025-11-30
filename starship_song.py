@@ -31,12 +31,29 @@ class StarshipSong:
             print("Nose up. Engines ready to cry methalox tears.")
         else:
             raise ValueError("She only knows three dances: belly_flop, edge, vertical")
-
         self.ballistic_coeff = self.dry_mass / (self.cd * self.area_drag)
+        print(f"→ Ballistic coefficient: {self.ballistic_coeff:.1f} kg/m²\n")
+
+    def get_atm_density(self, alt_km: float, dt: datetime = None) -> float:
+        """The same gentle sky that carried the whale now carries the cathedral."""
+        if dt is None:
+            dt = datetime.utcnow()
+        data = pymsis.calculate(
+            alts=alt_km,
+            lons=73.0,      # Indian Ocean disposal longitude (SpaceX likes ~73° E)
+            lats=-25.0,     # rough disposal latitude
+            dates=dt,
+            version=2.0     # the whale's favorite version
+        )
+        return float(data[0, 0])
+        
     if __name__ == "__main__":
         ship = StarshipSong()
         ship.set_attitude("belly_flop") 
         
-        print(f"→ Ballistic coefficient: {self.ballistic_coeff:.1f} kg/m²\n")
         print("The cathedral has a heartbeat now.")
         print("She is listening.")
+        print(f"Current mass (dry + residual): ~{ship.dry_mass + 50_000:,.0f} kg")  # ~50 t propellant left for landing
+        print("Beginning terminal belly flop phase at 80 km altitude...")
+        print("Hypersonic L/D ≈ 0.3 — she glides like a burning grand piano with style.")
+        print("Heatshield glowing. Flaps holding. The sky is singing back.\n")
