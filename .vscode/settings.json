@@ -20,13 +20,16 @@
     "deorbits",
     "derate",
     "dragacc",
+    "droneship",
     "eci",
     "getatm",
     "Heatshield",
+    "hoverslam",
     "iss",
     "lats",
     "leosat",
     "lons",
+    "Meehan",
     "methalox",
     "msis",
     "msis00f",
@@ -36,6 +39,7 @@
     "pycspice",
     "pymsis",
     "rk45",
+    "RTLS",
     "setdeorbit",
     "sgp4",
     "spacex",
@@ -45,6 +49,7 @@
     "Superheavy",
     "tle",
     "tles",
+    "Wech",
     "WhaleSong"
   ]
 }
