@@ -27,6 +27,23 @@
     "pointnemo",
     "lons",
     "lats",
-    "Heatshield"
+    "Heatshield",
+    "methalox",
+    "spacex",
+    "Starship",
+    "Superheavy",
+    "leosat",
+    "tles",
+    "tle",
+    "sgp4",
+    "pycspice",
+    "spk",
+    "iss",
+    "cythonize",
+    "deorbiting",
+    "deorbits",
+    "deorbited",
+    "deorbiters",
+    "deorbitment"
   ]
 }
