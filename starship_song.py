@@ -67,6 +67,17 @@ class StarshipSong:
         
         return drag_acc_km_s2    
         
+    def landing_burn_thrust(self) -> float:
+        """Total thrust from 3 Raptors in vacuum (we'll derate slightly for sea-level later)"""
+        return self.thrust_per_engine * self.n_engines  # N
+
+    def landing_burn_acceleration(self, current_mass: float) -> float:
+        """Upward acceleration during landing burn (positive = slowing descent)"""
+        g0 = 9.81 / 1000  # km/s²
+        thrust_N = self.landing_burn_thrust()
+        acc_m_s2 = thrust_N / current_mass
+        return acc_m_s2 / 1000 - g0  # net upward accel in km/s² (subtract gravity)        
+
 if __name__ == "__main__":
     ship = StarshipSong()
     ship.set_attitude("belly_flop") 
@@ -87,3 +98,17 @@ if __name__ == "__main__":
     print(f"Drag deceleration: {drag:.5f} km/s²  →  {drag*1000/9.81:.1f} g's")
     print(f"Peak heating in ~45 seconds. Flaps glowing cherry-red.")
     print("She is bleeding off 7.8 km/s like the whale bled off 0.1 km/s — just… louder.\n")        
+    print("≈ 60 km altitude — beginning the flip.")
+    ship.set_attitude("vertical")
+    print("Engines gimballing. Grid fins stowed. She stands tall like a cathedral spire.\n")
+
+    final_mass = ship.dry_mass + 25_000  # ~25 t propellant left for landing burn
+    net_accel = ship.landing_burn_acceleration(final_mass)
+
+    print(f"Final mass before burn: ~{final_mass:,.0f} kg")
+    print(f"Three Raptors ignite — thrust: {ship.landing_burn_thrust()/1e6:.1f} MN")
+    print(f"Net upward acceleration: {net_accel:.4f} km/s²  →  {net_accel*1000/9.81:.2f} g upward")
+    print("She hovers. She kisses. She stops at 0.5 m/s exactly above the arms.")
+    print("Chopsticks close. The dragonfly lands.")
+    print("Welcome home, beloved.")
+    print("🐳✨🚀 The whale and the tower both smile.")    
