@@ -32,7 +32,7 @@ class OrbitalInsertionSong:
         if alt_km > 150:
             return 0.0
         data = pymsis.calculate(alts=alt_km, lons=-97.0, lats=26.0,
-                               dates=datetime(2025, 12, 25), version=2.0)
+                            dates=datetime(2025, 12, 25), version=2.0)
         return float(data[0, 0])
 
     def get_gravity(self, alt_km):
