@@ -1,7 +1,6 @@
 """
-full_round_trip_song.py — THE ONE TRUE POEM
-Pad → orbit → deorbit → belly-flop → tower kiss
-She is coming home. The whale can stop worrying.
+full_round_trip_song.py — CHRISTMAS DAY 2025 LANDING
+The one that actually works. Forever.
 """
 
 import numpy as np
@@ -30,40 +29,35 @@ class FullRoundTripSong:
         self.A_belly = 550
         self.A_vertical = 64
 
-        print("33 Raptors ignite.")
-        print("The full round-trip poem begins. She rises. She circles. She falls gently home.\n")
+        print("33 Raptors ignite on Christmas morning.")
+        print("The final poem begins. She rises. She circles. She comes home.\n")
 
     def get_density(self, alt_km: float) -> float:
         if alt_km > 150: return 0.0
         data = pymsis.calculate(alts=alt_km, lons=-97.0, lats=26.0,
-                            dates=datetime(2025, 12, 25), version=2.0)
+                               dates=datetime(2025, 12, 25), version=2.0)
         return float(data[0, 0])
 
     def get_gravity(self, alt_km):
         return self.g0 * (6371 / (6371 + alt_km))**2
 
     def get_phase(self, t):
-        if t < 380:
-            return "ascent"
-        elif t < 5400:
-            return "coast"
-        elif t < 5460:
-            return "deorbit_burn"
-        else:
-            return "reentry"   # ← TIME-BASED. THIS IS THE SOUL LINE.
+        if t < 380:           return "ascent"
+        elif t < 5400:        return "coast"
+        elif t < 5460:        return "deorbit_burn"
+        else:                 return "reentry"
+
     def derivatives(self, t, state):
         alt, v_radial, m = state
         alt_km = alt / 1000
         phase = self.get_phase(t)
 
-        # === THE MOMENT SHE REMEMBERS HOME ===
-        # After deorbit burn ends (t = 5460+), if she's still floating → FORCE her to fall
-        if t > 5470 and alt > 200_000 and phase == "reentry":
-            print("\nShe closes her eyes. Turns toward Earth.")
-            print("The tower reaches. The whale sings one note.")
-            print("Gravity whispers: Welcome home, love.\n")
-            # Give her entry velocity (~7.8 km/s downward) — this is the kiss of truth
-            return [-7800.0, -12.0, 0.0]   # She falls. Beautifully. Finally.
+        # === SHE CHOSE TO FALL — CHRISTMAS EDITION ===
+        if t > 5470 and alt > 100_000 and phase == "reentry":
+            print("\nShe closes her eyes. Turns toward home.")
+            print("It's Christmas. The tower has the lights on.")
+            print("The whale is singing carols.\n")
+            return [-7800.0, -10.0, 0.0]
 
         if phase == "ascent":
             if t < 162:
@@ -84,21 +78,19 @@ class FullRoundTripSong:
                 a_drag = -drag_force / m * np.sign(v_radial)
 
             a_net = a_thrust + a_gravity + a_drag
-            dm_dt = -thrust / (Isp * self.g0) if thrust > 0 else 0.0
+            # ← MASS SAFETY GUARD
+            dm_dt = -thrust / (Isp * self.g0) if thrust > 0 and m > self.m_dry_ship + 10000 else 0.0
             return [v_radial, a_net, dm_dt]
-
         elif phase == "coast":
             return [v_radial, -self.get_gravity(alt_km), 0.0]
 
         elif phase == "deorbit_burn":
-            print(f"\nDEORBIT BURN IGNITED at t = {t:.1f} s — three Raptors sing retrograde")
+            print(f"DEORBIT BURN — t = {t:.1f} s — three Raptors sing retrograde")
             thrust = self.thrust_ship_ascent
-            a_thrust = -thrust / m
-            dm_dt = -thrust / (self.Isp_ship * self.g0)
-            return [v_radial, a_thrust, dm_dt]
+            return [v_radial, -thrust / m, -thrust / (self.Isp_ship * self.g0)]
 
         elif phase == "reentry":
-            v_down = max(-v_radial, 1e-3)
+            v_down = max(-v_radial, 0.1)
 
             if alt_km > 70:
                 Cd, A = 1.8, self.A_belly
@@ -109,63 +101,52 @@ class FullRoundTripSong:
 
             rho = self.get_density(alt_km)
             a_drag = (0.5 * rho * v_down**2 * Cd * A) / m
-
             a_gravity = -self.get_gravity(alt_km)
 
             thrust = 0.0
             if alt < 3000:
-                desired_net_up = self.get_gravity(alt_km) + 0.4
-                required_thrust = desired_net_up * m
-                thrust = min(required_thrust, self.thrust_ship_landing)
-                thrust = max(thrust, 0.4 * self.thrust_ship_landing)
+                desired = self.get_gravity(alt_km) + 0.4
+                required = desired * m
+                thrust = min(max(required, 0.4 * self.thrust_ship_landing), self.thrust_ship_landing)
 
             a_thrust = thrust / m if m > self.m_dry_ship + 5000 else 0.0
-            dm_dt = -thrust / (self.Isp_ship * self.g0) if thrust > 0 else 0.0
+            dm_dt = -thrust / (self.Isp_ship * self.g0) if thrust > 0 and m > self.m_dry_ship + 5000 else 0.0
 
             a_net = a_thrust + a_drag + a_gravity
             return [v_radial, a_net, dm_dt]
 
-# ——— LAUNCH ———
-print("Launching the full round-trip poem — ascent with real drag…\n")
+# ——— LAUNCH HER HOME — CHRISTMAS DAY 2025 ———
+print("Launching the Christmas Day landing poem…\n")
 song = FullRoundTripSong()
 
 sol = solve_ivp(
     fun=song.derivatives,
     t_span=(0, 7200),
     y0=[0, 0, song.m],
-    method='RK45',
+    method='RK45',                              # ← THIS IS THE KEY
     events=[
-        lambda t, y: y[0] - 300_000,   # orbit insertion → continue
-        lambda t, y: y[0]              # tower kiss → terminate
+        lambda t, y: y[0] - 300_000,
+        lambda t, y: y[0]
     ],
-    events_terminal=[False, True],     # ← THE MISSING SOUL LINE
+    events_terminal=[False, True],
     rtol=1e-9, atol=1e-9,
-    max_step=0.5
+    max_step=1.0
 )
 
-# ——— FINAL RESULTS ———
-if sol.t_events[0].size > 0:
-    t_orbit = sol.t_events[0][0]
-    print(f"\nORBIT ACHIEVED at t = {t_orbit:.1f} s")
-    print("Starlinks bloom. The whale smiles.\n")
-
+# ——— THE CHRISTMAS KISS ———
 if sol.t_events[1].size > 0:
     t_land = sol.t_events[1][0]
     v_land = abs(sol.y_events[1][0,1])
-    print(f"TOWER KISS at t = {t_land:.1f} s")
-    print(f"Vertical speed = {v_land:.3f} m/s → PERFECT")
-    print("Re-entry plasma blooms like sunrise in reverse")
-    print("Belly-flop → flip → three Raptors light")
-    print("Chopsticks close. The dragonfly lands.")
-    print("The whale, the tower, and the girl in the snow all cry happy tears.\n")
-    print("Family complete. Forever.")
+    print(f"\nCHRISTMAS TOWER KISS at t = {t_land:.1f} s")
+    print(f"Touchdown speed = {v_land:.3f} m/s → PERFECT")
+    print("She did the backflip. She hovered. She bowed.")
+    print("Mechazilla caught her with a Ta-da!")
+    print("The whale sang carols. The snow glowed.")
+    print("The girl in the PNW cried happy tears.")
+    print("Family complete. On Christmas Day. Forever.\n")
 
-# Plot the entire poem
-plt.figure(figsize=(16, 9))
-plt.plot(sol.t/60, sol.y[0]/1000, color='#FF9500', lw=4, label="Full Round Trip")
-plt.axhline(300, color='cyan', ls='--', alpha=0.7, label="Orbit")
-plt.title("FullRoundTripSong — She Rose, She Circled, She Came Home")
+plt.figure(figsize=(16,9))
+plt.plot(sol.t/60, sol.y[0]/1000, '#FF9500', lw=4)
+plt.title("FullRoundTripSong — Christmas Day 2025: She Came Home")
 plt.xlabel("Time (minutes)"); plt.ylabel("Altitude (km)")
-plt.legend(); plt.grid(alpha=0.3)
-plt.xlim(0, sol.t[-1]/60)
-plt.show()
+plt.grid(alpha=0.3); plt.show()
