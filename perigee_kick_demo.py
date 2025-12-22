@@ -25,7 +25,7 @@ circ = Orbit.circular(Earth, alt=550 * u.km, epoch=epoch)
 initial = Orbit.from_classical(
     Earth,
     a=circ.a,
-    ecc=0.1 * u.one,
+    ecc=0.5 * u.one,
     inc=51.6 * u.deg,
     raan=0 * u.deg,
     argp=0 * u.deg,
@@ -45,7 +45,7 @@ print(f"Apoapsis altitude: {(initial.r_a - Earth.R).to(u.km):.1f} km\n")
 
 # 15 m/s tangential Δv
 v_vec = initial.v.to_value(u.km / u.s)
-delta_v_vec = 0.015 * (v_vec / np.linalg.norm(v_vec))  # Posigrade
+delta_v_vec = 0.020 * (v_vec / np.linalg.norm(v_vec))  # Posigrade
 
 maneuver = Maneuver.impulse(delta_v_vec * u.km / u.s)
 post_kick = initial.apply_maneuver(maneuver)
